@@ -9,6 +9,13 @@
       (apply constructor seeded args))))
 
 
+(def send-to
+  (fn [instance message & args]
+    (let [class (eval (:__class_symbol__ instance))
+          method (message (:__instance_methods__ class))]
+      (apply method instance args))))
+
+
 (def Point
 {
     :__own_symbol__ 'Point
@@ -25,3 +32,7 @@
 
       }
 })
+
+
+(def point (make Point 1 2))
+(send-to point :shift 1 4)
